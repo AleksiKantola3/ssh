@@ -15,8 +15,14 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("A1","1.5")
         self.assertEqual("#ERROR",spreadsheet.evaluate("A1"))
 
+
     def test_evaluate_valid_string(self):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1", "'Apple'")
         self.assertEqual("Apple", spreadsheet.evaluate("A1"))
 
+
+    def test_evaluate_invalid_string(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "'Apple")
+        self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
