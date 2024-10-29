@@ -86,3 +86,16 @@ class TestSpreadSheet(TestCase):
 
         self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
 
+
+    def test_evaluate_valid_formula_div(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=4/2")
+
+        self.assertEqual(2, spreadsheet.evaluate("A1"))
+
+
+    def test_evaluate_invalid_formula_div_by_zero(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=1/0")
+
+        self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))

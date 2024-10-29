@@ -30,6 +30,12 @@ class SpreadSheet:
                     result = sum(int(part.strip()) for part in parts)
                 else:
                     result = "#ERROR"
+            elif '/' in value[1:]:
+                parts = value[1:].split('/')
+                if all(part.strip().isdigit() for part in parts) and int(parts[1].strip()) != 0:
+                    result = int(parts[0].strip()) // int(parts[1].strip())
+                else:
+                    result = "#ERROR"
             else:
                 result = "#ERROR"
         elif value.isdigit():
