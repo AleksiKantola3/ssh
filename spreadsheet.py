@@ -13,9 +13,17 @@ class SpreadSheet:
 
     def evaluate(self, cell: str):
         value = self.get(cell)
-        if value.isdigit():
+        if value.startswith("="):
+            if value[1:].isdigit():
+                return value[1:]
+            elif value[1:].startswith("'") and value[1:].endswith("'"):
+                return value[2:-1]
+            else:
+                return "#ERROR"
+        elif value.isdigit():
             return int(value)
         elif value.startswith("'") and value.endswith("'"):
             return value[1:-1]
-        return "#ERROR"
+        else:
+            return "#ERROR"
 
