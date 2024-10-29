@@ -67,9 +67,15 @@ class TestSpreadSheet(TestCase):
 
         self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
 
-    def test_evaluate_valid_simple_formula_ref_circle(self):
+    def test_evaluate_invalid_simple_formula_ref_circle(self):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1", "=A1")
         spreadsheet.set("B1", "42")
 
         self.assertEqual("#CIRCULAR", spreadsheet.evaluate("A1"))
+
+    def test_evaluate_valid_formula_sum(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=3+1")
+
+        self.assertEqual(4, spreadsheet.evaluate("A1"))

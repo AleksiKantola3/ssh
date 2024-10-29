@@ -24,6 +24,12 @@ class SpreadSheet:
                 result = value[2:-1]
             elif value[1:] in self._cells:
                 result = self.evaluate(value[1:])
+            elif '+' in value[1:]:
+                parts = value[1:].split('+')
+                if all(part.strip().isdigit() for part in parts):
+                    result = sum(int(part.strip()) for part in parts)
+                else:
+                    result = "#ERROR"
             else:
                 result = "#ERROR"
         elif value.isdigit():
