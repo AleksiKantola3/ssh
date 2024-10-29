@@ -12,20 +12,27 @@ class SpreadSheet:
         return self._cells.get(cell, '')
 
     def evaluate(self, cell: str):
+        if cell in self._evaluating:
+            return "#CIRCULAR"
+        self._evaluating.add(cell)
+        
         value = self.get(cell)
         if value.startswith("="):
             if value[1:].isdigit():
-                return value[1:]
+                result = int(value[1:])
             elif value[1:].startswith("'") and value[1:].endswith("'"):
-                return value[2:-1]
+                result = value[2:-1]
             elif value[1:] in self._cells:
-                return self.evaluate(value[1:])
+                result = self.evaluate(value[1:])
             else:
-                return "#ERROR"
+                result = "#ERROR"
         elif value.isdigit():
-            return int(value)
+            result = int(value)
         elif value.startswith("'") and value.endswith("'"):
-            return value[1:-1]
+            result = value[1:-1]
         else:
-            return "#ERROR"
+            result = "#ERROR"
+        
+        self._evaluating.remove(cell)
+        return result
 

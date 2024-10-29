@@ -37,7 +37,7 @@ class TestSpreadSheet(TestCase):
     def test_evaluate_valid_simple_formula_integer(self):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1", "=1")
-        self.assertEqual("1", spreadsheet.evaluate("A1"))
+        self.assertEqual(1, spreadsheet.evaluate("A1"))
 
 
     def test_evaluate_invalid_simple_formula_string(self):
@@ -66,3 +66,10 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("B1", "'Apple")
 
         self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
+
+    def test_evaluate_valid_simple_formula_ref_circle(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=A1")
+        spreadsheet.set("B1", "42")
+
+        self.assertEqual("#CIRCULAR", spreadsheet.evaluate("A1"))
