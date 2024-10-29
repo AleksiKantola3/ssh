@@ -44,3 +44,25 @@ class TestSpreadSheet(TestCase):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1", "='Apple")
         self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
+
+    def test_evaluate_valid_simple_formula_ref(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "42")
+
+        self.assertEqual(42, spreadsheet.evaluate("A1"))
+
+    def test_evaluate_valid_simple_formula_ref_string(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "'Apple'")
+
+        self.assertEqual("Apple", spreadsheet.evaluate("A1"))
+
+
+    def test_evaluate_invalid_simple_formula_ref_sting(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "'Apple")
+
+        self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
