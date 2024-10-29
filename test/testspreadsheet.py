@@ -79,3 +79,10 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("A1", "=3+1")
 
         self.assertEqual(4, spreadsheet.evaluate("A1"))
+
+    def test_evaluate_invalid_formula_sum(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=3+1.5")
+
+        self.assertEqual("#ERROR", spreadsheet.evaluate("A1"))
+
